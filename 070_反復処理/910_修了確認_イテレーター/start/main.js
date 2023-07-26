@@ -21,12 +21,29 @@
  * の値が順番にコンソールに表示されます。
  */
 
+const genStep = function (min, max, step) {
+    let i = 0;
+    this.nextIndex = min;
+    this.next = function () {
+        if (this.nextIndex <= max) {
+            result = {
+                value: this.nextIndex,
+                done: false
+            };
+            this.nextIndex += step;
+            i++;
+            return result;
+        }
+        return { value: i, done: true };
+    }
+    return this;
+};
 
- 
-// const it = genStep(4, 10, 2);
-// let a = it.next();
 
-// while(!a.done) {
-//   console.log(a.value);
-//   a = it.next();
-// }
+const it = genStep(4, 10, 2);
+let a = it.next();
+
+while(!a.done) {
+  console.log(a.value);
+  a = it.next();
+}

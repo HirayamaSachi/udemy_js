@@ -10,11 +10,32 @@
  * step：ステップ
  * 
  * 以下のように実行した場合には
- * const it = genStep({min: 4, max: 10, step: 2});
- * 
- * for(let value of it) {
- *   console.log(value); -> 4, 6, 8, 10
- * }
  * 
  * の値が順番にコンソールに表示されます。
  */
+// const genStep = function (args) {
+//     let array = [args.min];
+//     let result = args.min;
+//     while (result <args.max) {
+//         if (result == null) {
+//             array.push(result);
+//         }
+//         result += args.step;
+//         array.push(result);
+//     }
+
+//     return array;
+// }
+
+function *genStep(args) {
+    for (let i = args.min; i <= args.max; i += args.step) {
+        yield i;
+    }
+}
+
+const it = genStep({ min: 4, max: 10, step: 2 });
+
+for (let value of it) {
+    console.log(value);
+}
+
