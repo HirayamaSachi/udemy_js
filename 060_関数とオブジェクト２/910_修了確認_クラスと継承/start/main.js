@@ -15,7 +15,6 @@
  * 
  **************************************** 
  * １．一般ユーザーがログインした時。
- * loginController(new User('Bob'));
  * 
  * ログイン成功した場合：
  * User: Bob
@@ -30,7 +29,6 @@
  * 
  ****************************************
  * ２．管理者（AdminUser）でログインした場合
- * loginController(new AdminUser('Bob'));
  * 
  * ログイン成功した場合：
  * User: Bob
@@ -42,13 +40,45 @@
  * User: Bob
  * login failed <- loginで失敗した場合
  */
-
 function loginController(user) {
   if (user.login()
     && user.checkRoll()
-    && user.redirect()) {
+    && user.redirects()) {
     console.log('login success');
   } else {
     console.log('login failed');
   }
 }
+
+class User {
+  constructor(name) {
+    this.name = name;
+    this.roll = 'normal';
+    this.redirect = '';
+  }
+  login() {
+    console.log(`User: ${this.name}`);
+    return true;
+  }
+  checkRoll() {
+    console.log(`you have ${this.roll} roll`);
+    return true;
+  }
+  redirects() {
+    console.log(`/${this.redirect}`);
+    return true;
+  }
+}
+
+class AdminUser extends User {
+  constructor(name) {
+    super(name);
+    this.roll = 'admin';
+    this.redirect = 'admin';
+  }
+}
+
+
+loginController(new User('Bob'));
+
+loginController(new AdminUser('Bob'));
