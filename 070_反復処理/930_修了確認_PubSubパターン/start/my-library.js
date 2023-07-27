@@ -43,12 +43,24 @@
 class MyLibrary {
 	constructor() {
 		events.emit('beforeInit');
-	
+
 		console.log('library process');
-		
+
 		events.emit('afterInit');
 	}
-	method() {
-		// do something
+}
+const events = {
+	beforeInit: [],
+	afterInit: [],
+	on(timing, fnc) {
+		this[timing].push(fnc);
+	},
+	off(timing, fnc) {
+		this[timing].filter(logFunc => logFunc !== fnc);
+	},
+	emit(timing) {
+		for (let i = 0; i < this[timing].length; i++) {
+			this[timing][i]();
+		}
 	}
 }
