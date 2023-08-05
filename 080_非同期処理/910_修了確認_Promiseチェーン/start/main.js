@@ -35,3 +35,30 @@ async function myFetch(fileName) {
 	const json = await response.json();
 	return json;
 }
+
+async function log_msg(userId) {
+	await myFetch(`user${userId}.json`)
+		.then(__json => {
+			console.log(`--${__json.name}'s timeline--`);
+			return __json.id;
+		});
+	const friendsIds = await myFetch(`friendsOf${userId}.json`)
+		.then(__json => {
+			return __json.friendIds;
+		});
+	friendsIds.map((__userId) => {
+		myFetch(`user${__userId}.json`)
+			.then(__json => {
+				const msgId=__json.latestMsgId;
+				const userName=__json.name;
+				return msgId;
+			}).then(([userName,msgId])=>{
+				myFetch(`message${msgId}.json`)
+				.then((__json)=>{
+					console.log(`${userName} says: ${__json.message}`);
+				})
+			})
+	})
+}
+
+log_msg(1);
